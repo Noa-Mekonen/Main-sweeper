@@ -19,7 +19,7 @@ body {
 table, th, td {
     border: 1px solid black;
     /* border-collapse: collapse; */
-    margin: 150px auto;
+    margin: 120px auto;
     border-radius: 10px   
 }
 
@@ -32,8 +32,17 @@ table, th, td {
 
 .modal button{
     background-color: rgb(78, 96, 79);
-
 }
+
+.opened{
+    background-color: rgb(193, 214, 224);;
+}
+
+/* .lives span{
+    position: absolute;
+    width: 200px;
+    left: 200px;
+} */
 
 
 

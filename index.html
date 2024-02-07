@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="css/style.css" />
     <title>Mine Sweeper</title>
 </head>
-<body onkeyup="onHandleKey(event)" onload="onInit()">
+<body onload="onInit()">
     <h1>MINE SWEEPER</h1>
     <h3>LEVELS:</h3>
     <select onchange="onSelectLevel(this.value)" >
@@ -19,21 +19,22 @@
         <button onclick="onInit()">play again</button> 
 
     </div>
-
+    <div class="lives">
+        <span> </span>
+ 
+    </div>
     <table  class="board-container">
         <tbody class="board"></tbody>
     </table>
 
+
     <footer>
         <p>Name : Noa Mekonen</p>
-      </footer>
-    <script>
-        document.oncontextmenu = rightClick; 
-  
-        function rightClick(clickEvent) { 
-            clickEvent.preventDefault(); }
-    </script>
+    </footer>
+
+
     <script src="js/util.js"></script>
+    <script src="js/lives.js"></script>
     <script src="js/cell.js"></script>
     <script src="js/main.js"></script>
 </body>
