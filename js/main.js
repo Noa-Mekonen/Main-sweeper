@@ -5,6 +5,7 @@ const FLAG = '🚩'
 const EMPTY = '  '
 
 var gBoard
+var isFirstClick
 var gLevel = {
     SIZE: 4,
     MINES: 2 
@@ -17,9 +18,8 @@ var gGame = {
 }
 
 function onInit(){
+    isFirstClick = true
     gBoard = buildBoard()
-    // setMineInRandomPos()
-    setMinesNegsCount(gBoard)
     renderBoard(gBoard)
 }
 
@@ -39,9 +39,9 @@ function buildBoard(){
             board[i][j] = cell 
         }
     }
-    board[1][1].isMine = true
-    board[1][2].isMine = true
-    board[1][3].isMine = true
+    // board[1][1].isMine = true
+    // board[1][2].isMine = true
+    // board[1][3].isMine = true
 
     // console.table(board)
     return board
@@ -58,6 +58,7 @@ function renderBoard(board) {
                 const className = `cell cell-${i}-${j}`
                 var cell
                 if (!gBoard[i][j].isShown) cell = EMPTY
+                if (gBoard[i][j].isShown && !gBoard[i][j].isMine) cell = gBoard[i][j].minesAroundCount
                 if (gBoard[i][j].isMine && gBoard[i][j].isShown) cell = MINE 
                 strHTML += `\t<td onclick="onCellClicked(this, ${i}, ${j})" class="${className}">${cell}</td>\n`
             }
@@ -69,6 +70,19 @@ function renderBoard(board) {
 }
 
 function onCellClicked(elCell, i, j){
+    if (isFirstClick){
+        const neighbors = getNeigsArray(i,j)
+        for (var i = 0; i < neighbors.length; i++){
+            const emptyCell = neighbors[i]
+            const cellInBoard = gBoard[emptyCell.i][emptyCell.j]
+            cellInBoard.isShown = true
+        }
+        setMineInRandomPos()
+        setMinesNegsCount(gBoard)
+        renderBoard(gBoard)
+        isFirstClick = false
+        return
+    }
     const cell = gBoard[i][j]
     const neigsCount = cell.minesAroundCount
     if (cell.isMine){
@@ -81,6 +95,19 @@ function onCellClicked(elCell, i, j){
         cell.isShown = true
     }
     // if (neigsCount === 0) 
+}
+
+function getNeigsArray (cellI,cellJ){
+    var neighbors = []
+    for (var i = cellI - 1; i <= cellI + 1; i++) {
+        if (i < 0 || i >= gBoard.length) continue
+        for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+            if (i === cellI && j === cellJ) continue
+            if (j < 0 || j >= gBoard[0].length) continue
+            neighbors.push({i,j})
+        }
+    }
+    return neighbors
 }
 
 function setMineInRandomPos(){
@@ -105,6 +132,7 @@ function getEmptyCell(){
 
 function gameOver(){
     console.log('game over');
+    // onInit()
 }
 
 function setMinesNegsCount(board){
