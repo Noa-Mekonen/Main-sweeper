@@ -6,24 +6,35 @@
 	<link rel="stylesheet" href="css/style.css" />
     <title>Mine Sweeper</title>
 </head>
-<body onload="onInit()">
+<body onkeyup="onHandleKey(event)" onload="onInit()">
     <h1>MINE SWEEPER</h1>
-
+    <h3>LEVELS:</h3>
     <select onchange="onSelectLevel(this.value)" >
         <option>Easy</option>
         <option>Medium</option>
         <option>Hard</option>
     </select>
+    <div hidden class="modal">
+        <span class="result"></span>
+        <button onclick="onInit()">play again</button> 
 
+    </div>
 
-    <table class="board-container">
+    <table  class="board-container">
         <tbody class="board"></tbody>
     </table>
 
     <footer>
         <p>Name : Noa Mekonen</p>
       </footer>
+    <script>
+        document.oncontextmenu = rightClick; 
+  
+        function rightClick(clickEvent) { 
+            clickEvent.preventDefault(); }
+    </script>
     <script src="js/util.js"></script>
+    <script src="js/cell.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
