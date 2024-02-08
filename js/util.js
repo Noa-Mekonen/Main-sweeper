@@ -25,26 +25,6 @@ function getClassName(location) {
     return `cell-${location.i}-${location.j}`
 }
 
-function onHandleKey(event) {
-    const i = gGamerPos.i
-    const j = gGamerPos.j
-
-    switch (event.key) {
-        case 'ArrowLeft':
-            moveTo(i, j - 1)
-            break
-        case 'ArrowRight':
-            moveTo(i, j + 1)
-            break
-        case 'ArrowUp':
-            moveTo(i - 1, j)
-            break
-        case 'ArrowDown':
-            moveTo(i + 1, j)
-            break
-    }
-}
-
 function countNeighbors(cellI, cellJ) {
     var neighborsCount = 0
     for (var i = cellI - 1; i <= cellI + 1; i++) {
@@ -94,30 +74,4 @@ function getRandomColor() {
     return color;
 }
 
-function startTimer() {
-
-    if (gTimerInterval) clearInterval(gTimerInterval)
-    
-    var startTime = Date.now()
-    gTimerInterval = setInterval(() => {
-        const timeDiff = Date.now() - startTime
-
-        const seconds = getFormatSeconds(timeDiff)
-        const milliSeconds = getFormatMilliSeconds(timeDiff)
-
-        document.querySelector('span.seconds').innerText =  seconds
-        document.querySelector('span.milli-seconds').innerText = milliSeconds
-
-    }, 10)
-}
-
-function getFormatSeconds(timeDiff) {
-    const seconds = Math.floor(timeDiff / 1000)
-    return (seconds + '').padStart(2, '0')
-}
-
-function getFormatMilliSeconds(timeDiff) {
-    const milliSeconds = new Date(timeDiff).getMilliseconds()
-    return (milliSeconds + '').padStart(3, '0')
-}
 

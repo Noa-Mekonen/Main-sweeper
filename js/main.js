@@ -6,11 +6,13 @@ const EMPTY = '  '
 const COLORS = ['white', 'black', 'green', 'orangered', 'red', 'red', 'red', 'red', 'red', 'red', 'red']
 const HEART = '❤️'
 
-const LOSE_SMILEY = '<img src="img/lose.png">'
-const OPEN_NEIGS_SMILY = '<img src="img/openNeigs.png">'
-const DEFAULT_SMILEY = '<img src="img/default.png">'
-const FLAG_SMILEY = '<img src="img/flag.png">'
-const WIN_SMILEY = '<img src="img/win.png">'
+const LOSE_SMILEY = '😒'
+const OPEN_NEIGS_SMILY = '🤠'
+const DEFAULT_SMILEY = '😊'
+const FLAG_SMILEY = '😮'
+const WIN_SMILEY = '😍'
+const MINE_SMILEY = '😰'
+
 
 var gFlags
 var gSeconds
@@ -126,17 +128,19 @@ function gameOver(isVictory){
     }  
     if(!isVictory){
         updateSmiley(LOSE_SMILEY)
+        openModal(false)
     } 
     else{
         updateRecord(gSeconds , gMilliSeconds)
         updateSmiley(WIN_SMILEY)
+        openModal(true)
     } 
     gGame.isOn = false
 }
 
 function checkIsVictory(){
     if(countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES) return 
-    if(gGame.markedCount !== gLevel.MINES) return 
+    else if(gGame.markedCount !== gLevel.MINES) return 
     console.log('win');
     gameOver(true)
 }
@@ -248,11 +252,7 @@ function openModal(isVictory){
     const elModal = document.querySelector('.modal')
     elModal.hidden = false
     const elResult = document.querySelector('.result')
-    if(isVictory){
-        elResult.innerText = 'You Won!!'
-    }else{
-        elResult.innerText = 'Maybe next time😒'
-    }
+    elResult.innerText = isVictory ? 'YOU WON!!' : 'MAYBE NEXT TIME..'
 }
 
 function closeModal(){

@@ -36,6 +36,7 @@ function onCellClicked(elCell, i, j){
         cell.isMarked = false
     } 
     if (cell.isMine){
+        updateSmiley(MINE_SMILEY)
         elCell.innerText = MINE
         cell.isShown = true
         if (gCurrLives) handleLives(i,j)
