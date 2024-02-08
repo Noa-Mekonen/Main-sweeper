@@ -12,8 +12,8 @@ body {
 }
 
 .cell {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     text-align: center;
     background-color: rgb(239, 218, 170);
     cursor: pointer;
@@ -60,8 +60,8 @@ table, th, td {
 }
 
 .count-flags{
-    margin: -50px 300px;
-    position: absolute;
+    /* margin: -50px 300px; */
+    /* position: absolute; */
 }
 
 

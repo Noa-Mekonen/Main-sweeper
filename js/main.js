@@ -139,8 +139,10 @@ function gameOver(isVictory){
 }
 
 function checkIsVictory(){
+    console.log('shown: ',countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES);
     if(countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES) return 
-    else if(gGame.markedCount !== gLevel.MINES) return 
+    if(gGame.markedCount !== gLevel.MINES) return 
+
     console.log('win');
     gameOver(true)
 }
