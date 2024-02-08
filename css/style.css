@@ -10,17 +10,13 @@ body {
     height: 40px;
     text-align: center;
     background-color: rgb(239, 218, 170);
-}
-
-.cell:hover{
-    background-color: rgb(244, 217, 154);
+    cursor: pointer;;
 }
 
 table, th, td {
     border: 1px solid black;
-    /* border-collapse: collapse; */
+    border-collapse: collapse;
     margin: 120px auto;
-    border-radius: 10px   
 }
 
 .modal{
@@ -28,6 +24,7 @@ table, th, td {
     width: 170px;
     height: 70px;
     margin: auto;
+    position: absolute;
 }
 
 .modal button{
@@ -35,14 +32,39 @@ table, th, td {
 }
 
 .opened{
-    background-color: rgb(193, 214, 224);;
+    background-color: rgb(193, 214, 224);
+    cursor: not-allowed;
 }
 
-/* .lives span{
+.smiley img{
+    width: 50px;
     position: absolute;
-    width: 200px;
-    left: 200px;
-} */
+    margin: 70px auto;
+}
+
+.time{
+    width: 100px;
+    padding: 20px;
+    position: absolute;
+    background-color: rgb(59, 87, 60);
+    right: 20px;
+    top: 100px;
+}
+
+.record{
+    width: 100px;
+    padding: 20px;
+    position: absolute;
+    background-color: rgb(59, 87, 60);
+    right: 20px;
+    top: 20px;
+}
+
+.count-flags{
+    margin: -50px 300px;
+    position: absolute;
+}
+
 
 
 

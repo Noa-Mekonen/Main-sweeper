@@ -8,24 +8,40 @@
 </head>
 <body onload="onInit()">
     <h1>MINE SWEEPER</h1>
-    <h3>LEVELS:</h3>
-    <select onchange="onSelectLevel(this.value)" >
+    LEVELS: <select onchange="onSelectLevel(this.value)" >
         <option>Easy</option>
         <option>Medium</option>
         <option>Hard</option>
     </select>
+    <div class="time">
+        <span>TIME:</span>
+        <span class="second">00</span> :
+        <span class="millisecond">000</span>
+    </div>
+    <div class="record" >
+        record: <span id="record">60:100</span>
+    </div>
+
+
     <div hidden class="modal">
         <span class="result"></span>
         <button onclick="onInit()">play again</button> 
-
     </div>
+
+    <span class="smiley" onclick="onInit()"> <img src="img/default.png" alt="smiley"></span>
     <div class="lives">
         <span> </span>
  
     </div>
-    <table  class="board-container">
-        <tbody class="board"></tbody>
-    </table>
+    <div>
+        <div class="count-flags">
+            🚩 : <span class="flags"></span>
+        </div>
+        <table  class="board-container">
+            <tbody class="board"></tbody>
+        </table>
+    </div>
+
 
 
     <footer>

@@ -19,3 +19,8 @@ function handleLives(i, j){
     gCurrLives--
     renderLives()
 }
+
+function renderFlags(){
+    const elFlags = document.querySelector('.flags')
+    elFlags.innerText = gFlags
+}

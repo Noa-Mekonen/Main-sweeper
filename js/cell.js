@@ -1,13 +1,16 @@
 'use strict'
 
-
-function rightClick(clickEvent, elCell,i,j) { 
+function rightClick(clickEvent,i,j) { 
+    if(gBoard[i][j].isMarked) return
     gGame.markedCount++
-    console.log('flags: ',gGame.markedCount);
     clickEvent.preventDefault();
     if(isFirstClick) return
     if(gBoard[i][j].isShown) return
     gBoard[i][j].isMarked = true
+    updateSmiley(FLAG_SMILEY)
+    checkIsVictory()
+    gFlags--
+    renderFlags()
     renderBoard(gBoard)
 }
 
@@ -15,36 +18,42 @@ function onCellClicked(elCell, i, j){
     if (!gGame.isOn) return
 
     if (isFirstClick){
+        startTimer()
         gBoard[i][j].isShown = true
         revealNeighbors(i,j)
         setMineInRandomPos()
         setMinesNegsCount(gBoard)
         isFirstClick = false
+        updateSmiley(OPEN_NEIGS_SMILY)
     }
     const cell = gBoard[i][j]
     const neigsCount = cell.minesAroundCount
 
     if (cell.isMarked){
+        gFlags++
+        renderFlags()
         gGame.markedCount--
         cell.isMarked = false
-        // return renderBoard(gBoard)
     } 
     if (cell.isMine){
         elCell.innerText = MINE
         cell.isShown = true
         if (gCurrLives) handleLives(i,j)
-        else gameOver(false)
+        else {
+            gameOver(false)
+        }    
     } 
     if (neigsCount > 0){
         elCell.innerText = neigsCount
         cell.isShown = true
         gGame.shownCount++
-        console.log('shownCount: ', gGame.shownCount);
-        // if(isVictory) return gameOver(true)
+        updateSmiley(DEFAULT_SMILEY)
+        checkIsVictory()
     }
     if (neigsCount === 0 && !cell.isMine) {
         revealNeighbors(i, j) 
-        // if(isVictory) return gameOver(true)
+        updateSmiley(OPEN_NEIGS_SMILY)
+        checkIsVictory()
     }
     renderBoard(gBoard)
 }
@@ -56,6 +65,7 @@ function revealNeighbors(i,j){
         const emptyCell = neighbors[i]
         const cellInBoard = gBoard[emptyCell.i][emptyCell.j]
         cellInBoard.isShown = true
+        cellInBoard.isMarked = false
     }
 }
 
@@ -69,4 +79,9 @@ function getNeigsArray (cellI,cellJ){
         }
     }
     return neighbors
+}
+
+function updateSmiley(img){
+    const elSmiley = document.querySelector('.smiley')
+    elSmiley.innerHTML = img
 }

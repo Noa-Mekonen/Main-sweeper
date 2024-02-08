@@ -5,8 +5,17 @@ const FLAG = '🚩'
 const EMPTY = '  '
 const COLORS = ['white', 'black', 'green', 'orangered', 'red', 'red', 'red', 'red', 'red', 'red', 'red']
 const HEART = '❤️'
-// const HEART = '<img src="img/hearts.jpg">'
 
+const LOSE_SMILEY = '<img src="img/lose.png">'
+const OPEN_NEIGS_SMILY = '<img src="img/openNeigs.png">'
+const DEFAULT_SMILEY = '<img src="img/default.png">'
+const FLAG_SMILEY = '<img src="img/flag.png">'
+const WIN_SMILEY = '<img src="img/win.png">'
+
+var gFlags
+var gSeconds
+var gMilliSeconds
+var gIntervalId
 var gCurrLives
 var gBoard
 var isFirstClick
@@ -24,6 +33,10 @@ var gGame = {
 }
 
 function onInit(){
+    document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    
+    gFlags = gLevel.MINES
+    clearInterval(gIntervalId)
     gGame.isOn = true
     closeModal()
     mines = []
@@ -31,7 +44,9 @@ function onInit(){
     gBoard = buildBoard()
     renderBoard(gBoard)
     gCurrLives = gLevel.LIVES
-    renderLives()
+    renderLives()  
+    updateSmiley(DEFAULT_SMILEY)
+    renderFlags()
 }
 
 function buildBoard(){
@@ -83,7 +98,7 @@ function renderBoard(board) {
                 if (cell.isMarked) type = FLAG
                 
 
-                strHTML += `\t<td style="color: ${cell.color};" oncontextmenu="rightClick(event, this, ${i}, ${j})" onclick="onCellClicked(this, ${i}, ${j})" class="${className}">${type}</td>\n`
+                strHTML += `\t<td style="color: ${cell.color};" oncontextmenu="rightClick(event, ${i}, ${j})" onclick="onCellClicked(this, ${i}, ${j})" class="${className}">${type}</td>\n`
             }
             strHTML += '</tr>\n'
         }
@@ -101,20 +116,39 @@ function setMineInRandomPos(){
 }
 
 function gameOver(isVictory){
+    clearInterval(gIntervalId)
+
+    for (var i = 0; i < mines.length; i++){
+        const pos = mines[i]
+        gBoard[pos.i][pos.j].isShown = true
+        gBoard[pos.i][pos.j].isMarked = false
+        renderBoard(gBoard)
+    }  
     if(!isVictory){
-        for (var i = 0; i < mines.length; i++){
-            const pos = mines[i]
-            gBoard[pos.i][pos.j].isShown = true
-            renderBoard(gBoard)
-        }
-    }    
+        updateSmiley(LOSE_SMILEY)
+    } 
+    else{
+        updateRecord(gSeconds , gMilliSeconds)
+        updateSmiley(WIN_SMILEY)
+    } 
     gGame.isOn = false
-    openModal()
 }
 
-function isVictory(){
-    // console.log(!gGame.markedCount && gGame.shownCount === gLevel.SIZE**2-gLevel.MINES);
-    return (false)
+function checkIsVictory(){
+    if(countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES) return 
+    if(gGame.markedCount !== gLevel.MINES) return 
+    console.log('win');
+    gameOver(true)
+}
+
+function countAllShownCells(){
+    var countShown = 0
+    for(var i = 0; i < gBoard.length; i++){
+        for(var j = 0; j < gBoard[0].length; j++){
+            if (gBoard[i][j].isShown) countShown++
+        }
+    }
+    return countShown
 }
 
 function getEmptyCell(){
@@ -157,6 +191,30 @@ function countMinesNeighbors(cellI, cellJ) {
     return neighborsCount
 }
 
+function startTimer(){
+    if(gIntervalId) clearInterval(gIntervalId)
+
+    var startTime = Date.now()
+    gIntervalId = setInterval(()=> {
+        const timeDiff = Date.now() - startTime
+
+        gSeconds = getFormatSeconds(timeDiff)
+        gMilliSeconds = getFormatMilliSeconds(timeDiff)
+        document.querySelector('.second').innerText = gSeconds
+        document.querySelector('.millisecond').innerText = gMilliSeconds
+    })
+}
+
+function getFormatSeconds(timeDiff) {
+    const seconds = Math.floor(timeDiff / 1000)
+    return (seconds + '').padStart(2, '0')
+}
+
+function getFormatMilliSeconds(timeDiff) {
+    const milliSeconds = new Date(timeDiff).getMilliseconds()
+    return (milliSeconds + '').padStart(3, '0')
+}
+
 function onSelectLevel(val) {
     if (val === 'Easy'){
         gLevel.SIZE = 4
@@ -176,9 +234,25 @@ function onSelectLevel(val) {
     onInit()
 }
 
-function openModal(){
+function updateRecord(seconds , milliSeconds){
+    const timer = document.getElementById("record").innerHTML
+    var times = (timer.split(':'))
+    if(seconds < +times[0] ){
+    localStorage.setItem("Best", seconds+':'+milliSeconds);
+    document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    }
+}
+console.log('localStorage.getItem("Best") ', localStorage.getItem("Best"));
+
+function openModal(isVictory){
     const elModal = document.querySelector('.modal')
     elModal.hidden = false
+    const elResult = document.querySelector('.result')
+    if(isVictory){
+        elResult.innerText = 'You Won!!'
+    }else{
+        elResult.innerText = 'Maybe next time😒'
+    }
 }
 
 function closeModal(){
