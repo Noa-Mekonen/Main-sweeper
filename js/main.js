@@ -241,11 +241,11 @@ function onSelectLevel(val) {
 }
 
 function updateRecord(seconds , milliSeconds){
-    const timer = document.getElementById("record").innerHTML
-    var times = (timer.split(':'))
+    const elTimer = document.getElementById("record").innerHTML
+    var times = (elTimer.split(':'))
     if(seconds < +times[0] ){
     localStorage.setItem("Best", seconds+':'+milliSeconds);
-    document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    elTimer.innerHTML = localStorage.getItem("Best");
     }
 }
 console.log('localStorage.getItem("Best") ', localStorage.getItem("Best"));
