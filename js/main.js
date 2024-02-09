@@ -3,7 +3,7 @@
 const MINE = '💥'
 const FLAG = '🚩'
 const EMPTY = '  '
-const COLORS = ['white', 'black', 'green', 'orangered', 'red', 'red', 'red', 'red', 'red', 'red', 'red']
+const COLORS = ['white', 'black', 'green', 'orangered', 'red', 'red', 'red', 'red', 'red', 'red']
 const HEART = '❤️'
 
 const LOSE_SMILEY = '😒'
@@ -13,7 +13,7 @@ const FLAG_SMILEY = '😮'
 const WIN_SMILEY = '😍'
 const MINE_SMILEY = '😰'
 
-
+var gIsSafeBtnClicked 
 var gFlags
 var gSeconds
 var gMilliSeconds
@@ -35,8 +35,8 @@ var gGame = {
 }
 
 function onInit(){
-    document.getElementById("record").innerHTML = localStorage.getItem("Best");
-    
+    // document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    gIsSafeBtnClicked = false
     gFlags = gLevel.MINES
     clearInterval(gIntervalId)
     gGame.isOn = true
@@ -71,7 +71,6 @@ function buildBoard(){
     // board[1][1].isMine = true
     // board[1][2].isMine = true
     // board[1][3].isMine = true
-
     return board
 }
 
@@ -131,7 +130,7 @@ function gameOver(isVictory){
         openModal(false)
     } 
     else{
-        updateRecord(gSeconds , gMilliSeconds)
+        // updateRecord(gSeconds , gMilliSeconds)
         updateSmiley(WIN_SMILEY)
         openModal(true)
     } 
@@ -240,16 +239,6 @@ function onSelectLevel(val) {
     onInit()
 }
 
-function updateRecord(seconds , milliSeconds){
-    const elTimer = document.getElementById("record").innerHTML
-    var times = (elTimer.split(':'))
-    if(seconds < +times[0] ){
-    localStorage.setItem("Best", seconds+':'+milliSeconds);
-    elTimer.innerHTML = localStorage.getItem("Best");
-    }
-}
-console.log('localStorage.getItem("Best") ', localStorage.getItem("Best"));
-
 function openModal(isVictory){
     const elModal = document.querySelector('.modal')
     elModal.hidden = false
@@ -261,4 +250,13 @@ function closeModal(){
     const elModal = document.querySelector('.modal')
     elModal.hidden = true
 }
+
+// function updateRecord(seconds , milliSeconds){
+//     const elTimer = document.getElementById("record").innerHTML
+//     var times = (elTimer.split(':'))
+//     if(seconds < +times[0] ){
+//     localStorage.setItem("Best", seconds+':'+milliSeconds);
+//     elTimer.innerHTML = localStorage.getItem("Best");
+//     }
+// }
 

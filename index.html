@@ -21,24 +21,23 @@
         <div class="count-flags">
             🚩 : <span class="flags"></span>
         </div>
+        <div class="time">
+            <span>TIME:</span>
+            <span class="second">00</span> :
+            <span class="millisecond">000</span>
+            <!-- <span class="record">record: <span id="record">infinity:infinity</span> </span>  -->
+        </div>
+        <div class="safe-click"> 
+            <button class="safe-btn" onclick="onSafeClick(this)">safe click</button>
+        </div>
     </div>
     <button class="smiley" onclick="onInit()">😊</button>
 
-
-    <div class="time">
-        <span>TIME:</span>
-        <span class="second">00</span> :
-        <span class="millisecond">000</span>
-        <span class="record">record: <span id="record">infinity:infinity</span> </span> 
-    </div>
-   
     <div hidden class="modal">
         <span class="result"></span>
         <button onclick="onInit()">play again</button> 
     </div>
 
- 
-    
     <table  class="board-container">
         <tbody class="board"></tbody>
     </table>
@@ -51,6 +50,7 @@
 
 
     <script src="js/util.js"></script>
+    <script src="js/hints.js"></script>
     <script src="js/lives.js"></script>
     <script src="js/cell.js"></script>
     <script src="js/main.js"></script>
