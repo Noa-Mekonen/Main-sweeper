@@ -1,15 +1,19 @@
 'use strict'
 
 function rightClick(clickEvent,i,j) { 
-    if(gBoard[i][j].isMarked) return
-    gGame.markedCount++
-    console.log('marked: ', gGame.markedCount);
     clickEvent.preventDefault();
+
+    if(gBoard[i][j].isMarked) return
     if(isFirstClick) return
     if(gBoard[i][j].isShown) return
+    
     gBoard[i][j].isMarked = true
+    gGame.markedCount++
+    console.log('marked: ', gGame.markedCount);
+
     updateSmiley(FLAG_SMILEY)
     checkIsVictory()
+
     gFlags--
     renderFlags()
     renderBoard(gBoard)
@@ -19,13 +23,15 @@ function onCellClicked(elCell, i, j){
     if (!gGame.isOn) return
 
     if (isFirstClick){
-        startTimer()
         gBoard[i][j].isShown = true
+
+        startTimer()
         revealNeighbors(i,j)
         setMineInRandomPos()
         setMinesNegsCount(gBoard)
-        isFirstClick = false
         updateSmiley(OPEN_NEIGS_SMILY)
+
+        isFirstClick = false
     }
     const cell = gBoard[i][j]
     const neigsCount = cell.minesAroundCount
@@ -35,6 +41,7 @@ function onCellClicked(elCell, i, j){
         renderFlags()
         gGame.markedCount--
         cell.isMarked = false
+        cell.isShown = true
         console.log('marked: ', gGame.markedCount);
 
     } 
@@ -43,9 +50,7 @@ function onCellClicked(elCell, i, j){
         elCell.innerText = MINE
         cell.isShown = true
         if (gCurrLives) handleLives(i,j)
-        else {
-            gameOver(false)
-        }    
+        else gameOver(false)      
     } 
     if (neigsCount > 0){
         elCell.innerText = neigsCount

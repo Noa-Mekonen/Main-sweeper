@@ -59,7 +59,7 @@ table, th, td {
     position: absolute;
     background-color: rgb(59, 87, 60);
     right: 20px;
-    top: 110px;
+    top: 90px;
     color: aliceblue;
 }
 
@@ -83,21 +83,11 @@ table, th, td {
     background-color: rgb(46, 167, 46);
 }
 
-
-
-
-/* .light{
-    background-color: transparent;
-    display: inline-block;
-    width: 50px;
-    transition: 1s;
+.hidden{
+    display: none;
 }
 
-.hint-img{
-    background-color: transparent;
-    display: inline-block;
-    width: 30px;
-} */
+
 
 
 

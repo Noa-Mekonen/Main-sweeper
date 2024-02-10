@@ -13,6 +13,7 @@ const FLAG_SMILEY = '😮'
 const WIN_SMILEY = '😍'
 const MINE_SMILEY = '😰'
 
+var gRecordFunction
 var gIsSafeBtnClicked 
 var gFlags
 var gSeconds
@@ -35,7 +36,7 @@ var gGame = {
 }
 
 function onInit(){
-    document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    document.getElementById("record1").innerHTML = localStorage.getItem("BestLevel1");
     gGame.markedCount = 0
     gIsSafeBtnClicked = false
     gFlags = gLevel.MINES
@@ -128,7 +129,7 @@ function gameOver(isVictory){
         openModal(false)
     } 
     else{
-        updateRecord(gSeconds , gMilliSeconds)
+        if(gLevel.SIZE === 4) updateRecord(gSeconds , gMilliSeconds)
         updateSmiley(WIN_SMILEY)
         openModal(true)
     } 
@@ -220,20 +221,24 @@ function getFormatMilliSeconds(timeDiff) {
 }
 
 function onSelectLevel(val) {
+    const elRecord = document.querySelector('.record')
     if (val === 'Easy'){
         gLevel.SIZE = 4
         gLevel.MINES = 2
         gLevel.LIVES = 2
+        elRecord.classList.remove('hidden')
     }
     if (val === 'Medium'){
         gLevel.SIZE = 8
         gLevel.MINES = 14
         gLevel.LIVES = 3
+        elRecord.classList.add('hidden')
     }
     if (val === 'Hard'){
         gLevel.SIZE = 12
         gLevel.MINES = 32
         gLevel.LIVES = 4
+        elRecord.classList.add('hidden')
     }
     onInit()
 }
@@ -249,16 +254,20 @@ function closeModal(){
     const elModal = document.querySelector('.modal')
     elModal.hidden = true
 }
-
+console.log(localStorage.BestLevel1);
 
 function updateRecord(seconds , milliSeconds){
-    localStorage.setItem("Best", "Infinity:Infinity");
-
-    const elTimer = document.getElementById("record").innerHTML
-    var times = (localStorage.getItem("Best").split(':'))
-    if(seconds < +times[0] ){
-    localStorage.setItem("Best", seconds+':'+milliSeconds);
-    elTimer.innerHTML = localStorage.getItem("Best");
+    if(localStorage.BestLevel1){
+        var times = (localStorage.getItem("BestLevel1").split(':'))
+        if(seconds < +times[0] || seconds === +times[0] && milliSeconds > +times[1]){
+           localStorage.setItem("BestLevel1", seconds+':'+milliSeconds);
+           const elTimer = document.getElementById("record1").innerHTML
+           elTimer.innerText = localStorage.getItem("BestLevel1");
+        }
+    }else{
+        localStorage.setItem("BestLevel1", seconds+':'+milliSeconds)
+        const elTimer = document.getElementById("record1").innerHTML
+        elTimer.innerText = localStorage.getItem("BestLevel1");
     }
 }
 
@@ -266,12 +275,21 @@ function updateRecord(seconds , milliSeconds){
 
 
 
+// localStorage.setItem("Best", "Infinity:Infinity");
+
 // function updateRecord(seconds , milliSeconds){
+
 //     const elTimer = document.getElementById("record").innerHTML
-//     var times = (elTimer.split(':'))
+//     var times = (localStorage.getItem("Best").split(':'))
 //     if(seconds < +times[0] ){
-//     localStorage.setItem("Best", seconds+':'+milliSeconds);
-//     elTimer.innerHTML = localStorage.getItem("Best");
+//        localStorage.setItem("Best", seconds+':'+milliSeconds);
+//        elTimer.innerHTML = localStorage.getItem("Best");
 //     }
 // }
+
+
+
+
+
+
 
