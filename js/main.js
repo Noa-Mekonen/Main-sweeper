@@ -35,7 +35,8 @@ var gGame = {
 }
 
 function onInit(){
-    // document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    document.getElementById("record").innerHTML = localStorage.getItem("Best");
+    gGame.markedCount = 0
     gIsSafeBtnClicked = false
     gFlags = gLevel.MINES
     clearInterval(gIntervalId)
@@ -67,10 +68,7 @@ function buildBoard(){
 
             board[i][j] = cell 
         }
-    }
-    // board[1][1].isMine = true
-    // board[1][2].isMine = true
-    // board[1][3].isMine = true
+    } 
     return board
 }
 
@@ -130,7 +128,7 @@ function gameOver(isVictory){
         openModal(false)
     } 
     else{
-        // updateRecord(gSeconds , gMilliSeconds)
+        updateRecord(gSeconds , gMilliSeconds)
         updateSmiley(WIN_SMILEY)
         openModal(true)
     } 
@@ -140,6 +138,7 @@ function gameOver(isVictory){
 function checkIsVictory(){
     console.log('shown: ',countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES);
     if(countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES) return 
+    console.log('flag: ', gGame.markedCount); 
     if(gGame.markedCount !== gLevel.MINES) return 
 
     console.log('win');
@@ -250,6 +249,22 @@ function closeModal(){
     const elModal = document.querySelector('.modal')
     elModal.hidden = true
 }
+
+
+function updateRecord(seconds , milliSeconds){
+    localStorage.setItem("Best", "Infinity:Infinity");
+
+    const elTimer = document.getElementById("record").innerHTML
+    var times = (localStorage.getItem("Best").split(':'))
+    if(seconds < +times[0] ){
+    localStorage.setItem("Best", seconds+':'+milliSeconds);
+    elTimer.innerHTML = localStorage.getItem("Best");
+    }
+}
+
+
+
+
 
 // function updateRecord(seconds , milliSeconds){
 //     const elTimer = document.getElementById("record").innerHTML

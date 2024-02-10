@@ -3,6 +3,7 @@
 function rightClick(clickEvent,i,j) { 
     if(gBoard[i][j].isMarked) return
     gGame.markedCount++
+    console.log('marked: ', gGame.markedCount);
     clickEvent.preventDefault();
     if(isFirstClick) return
     if(gBoard[i][j].isShown) return
@@ -34,6 +35,8 @@ function onCellClicked(elCell, i, j){
         renderFlags()
         gGame.markedCount--
         cell.isMarked = false
+        console.log('marked: ', gGame.markedCount);
+
     } 
     if (cell.isMine){
         updateSmiley(MINE_SMILEY)
@@ -65,8 +68,11 @@ function revealNeighbors(i,j){
         
         const emptyCell = neighbors[i]
         const cellInBoard = gBoard[emptyCell.i][emptyCell.j]
+        if(cellInBoard.isMarked){
+            cellInBoard.isMarked = false
+            gGame.markedCount --
+        }
         cellInBoard.isShown = true
-        cellInBoard.isMarked = false
     }
 }
 
