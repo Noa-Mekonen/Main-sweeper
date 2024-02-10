@@ -9,7 +9,6 @@ function rightClick(clickEvent,i,j) {
     
     gBoard[i][j].isMarked = true
     gGame.markedCount++
-    console.log('marked: ', gGame.markedCount);
 
     updateSmiley(FLAG_SMILEY)
     checkIsVictory()
@@ -42,8 +41,6 @@ function onCellClicked(elCell, i, j){
         gGame.markedCount--
         cell.isMarked = false
         cell.isShown = true
-        console.log('marked: ', gGame.markedCount);
-
     } 
     if (cell.isMine){
         updateSmiley(MINE_SMILEY)

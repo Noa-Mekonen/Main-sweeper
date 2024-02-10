@@ -36,19 +36,25 @@ var gGame = {
 }
 
 function onInit(){
-    document.getElementById("record1").innerHTML = localStorage.getItem("BestLevel1");
+    document.getElementById("record").innerHTML = localStorage.getItem("BestLevel1");
+    document.querySelector('.second').innerText = '00'
+    document.querySelector('.millisecond').innerText = '000'
+
     gGame.markedCount = 0
     gIsSafeBtnClicked = false
     gFlags = gLevel.MINES
-    clearInterval(gIntervalId)
     gGame.isOn = true
-    closeModal()
-    mines = []
     isFirstClick = true
+    mines = []
+
+    clearInterval(gIntervalId)
+    closeModal()
     gBoard = buildBoard()
+
     renderBoard(gBoard)
     gCurrLives = gLevel.LIVES
     renderLives()  
+
     updateSmiley(DEFAULT_SMILEY)
     renderFlags()
 }
@@ -130,6 +136,9 @@ function gameOver(isVictory){
     } 
     else{
         if(gLevel.SIZE === 4) updateRecord(gSeconds , gMilliSeconds)
+
+
+ 
         updateSmiley(WIN_SMILEY)
         openModal(true)
     } 
@@ -137,12 +146,9 @@ function gameOver(isVictory){
 }
 
 function checkIsVictory(){
-    console.log('shown: ',countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES);
     if(countAllShownCells() !== gLevel.SIZE**2-gLevel.MINES) return 
-    console.log('flag: ', gGame.markedCount); 
     if(gGame.markedCount !== gLevel.MINES) return 
 
-    console.log('win');
     gameOver(true)
 }
 
@@ -221,24 +227,25 @@ function getFormatMilliSeconds(timeDiff) {
 }
 
 function onSelectLevel(val) {
-    const elRecord = document.querySelector('.record')
+    const elFirstRecord = document.querySelector('.record')
+
     if (val === 'Easy'){
         gLevel.SIZE = 4
         gLevel.MINES = 2
         gLevel.LIVES = 2
-        elRecord.classList.remove('hidden')
+        elFirstRecord.classList.remove('hidden')
     }
     if (val === 'Medium'){
         gLevel.SIZE = 8
         gLevel.MINES = 14
         gLevel.LIVES = 3
-        elRecord.classList.add('hidden')
+        elFirstRecord.classList.add('hidden')
     }
     if (val === 'Hard'){
         gLevel.SIZE = 12
         gLevel.MINES = 32
         gLevel.LIVES = 4
-        elRecord.classList.add('hidden')
+        elFirstRecord.classList.add('hidden')
     }
     onInit()
 }
@@ -254,42 +261,6 @@ function closeModal(){
     const elModal = document.querySelector('.modal')
     elModal.hidden = true
 }
-console.log(localStorage.BestLevel1);
-
-function updateRecord(seconds , milliSeconds){
-    if(localStorage.BestLevel1){
-        var times = (localStorage.getItem("BestLevel1").split(':'))
-        if(seconds < +times[0] || seconds === +times[0] && milliSeconds > +times[1]){
-           localStorage.setItem("BestLevel1", seconds+':'+milliSeconds);
-           const elTimer = document.getElementById("record1").innerHTML
-           elTimer.innerText = localStorage.getItem("BestLevel1");
-        }
-    }else{
-        localStorage.setItem("BestLevel1", seconds+':'+milliSeconds)
-        const elTimer = document.getElementById("record1").innerHTML
-        elTimer.innerText = localStorage.getItem("BestLevel1");
-    }
-}
-
-
-
-
-
-// localStorage.setItem("Best", "Infinity:Infinity");
-
-// function updateRecord(seconds , milliSeconds){
-
-//     const elTimer = document.getElementById("record").innerHTML
-//     var times = (localStorage.getItem("Best").split(':'))
-//     if(seconds < +times[0] ){
-//        localStorage.setItem("Best", seconds+':'+milliSeconds);
-//        elTimer.innerHTML = localStorage.getItem("Best");
-//     }
-// }
-
-
-
-
 
 
 
